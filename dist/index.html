@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Analytics Dashboard Pro - High-performance analytics dashboard with real-time data visualization" />
+    <title>Analytics Dashboard Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --color-primary: 20 184 166;
+        --color-secondary: 71 85 105;
+        --color-background: 248 250 252;
+        --color-surface: 255 255 255;
+        --color-text: 15 23 42;
+        --color-text-muted: 100 116 139;
+      }
+
+      .dark {
+        --color-background: 2 6 23;
+        --color-surface: 15 23 42;
+        --color-text: 248 250 252;
+        --color-text-muted: 148 163 184;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: rgb(var(--color-background));
+        color: rgb(var(--color-text));
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .skeleton {
+        background: linear-gradient(90deg, 
+          rgba(var(--color-text-muted), 0.1) 25%, 
+          rgba(var(--color-text-muted), 0.2) 50%, 
+          rgba(var(--color-text-muted), 0.1) 75%);
+        background-size: 200% 100%;
+        animation: skeleton 1.5s infinite;
+      }
+
+      @keyframes skeleton {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-4c4d4e83.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/vendor-b993c031.js">
+    <link rel="modulepreload" crossorigin href="./assets/ui-d2d696e5.js">
+    <link rel="stylesheet" href="./assets/index-91298ac9.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    
+  </body>
+</html> 

@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Analytics Dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.localhost`)"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=80"
+
+  # Development server (alternative to built version)
+  dashboard-dev:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3001:3000"
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:3002
+      - VITE_WS_URL=ws://localhost:3002
+    profiles:
+      - dev
+
+  # Mock API Server (for development)
+  mock-api:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./mock-server:/app
+    ports:
+      - "3002:3002"
+    command: npm start
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+    profiles:
+      - dev
+
+  # Redis (for caching and real-time features)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    profiles:
+      - dev
+      - production
+
+  # PostgreSQL (for persistent data storage)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: analytics_dashboard
+      POSTGRES_USER: dashboard_user
+      POSTGRES_PASSWORD: dashboard_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    profiles:
+      - dev
+      - production
+
+  # Reverse proxy (for production)
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    profiles:
+      - production
+
+volumes:
+  redis_data:
+  postgres_data:
+
+networks:
+  default:
+    name: analytics-network 

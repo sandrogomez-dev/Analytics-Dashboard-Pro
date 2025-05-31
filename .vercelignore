@@ -1,0 +1,49 @@
+# Development files
+.env.local
+.env.development
+.env.test
+
+# Build artifacts
+node_modules
+.next
+.nuxt
+.vite
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs
+
+# Testing
+coverage
+.nyc_output
+
+# Dependencies
+.pnpm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Development tools
+.eslintcache
+.stylelintcache 
